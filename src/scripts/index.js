@@ -1,6 +1,7 @@
 import '../pages/index.css';
-import { createCard, renderInitialCards } from './cards.js';
-import { openPopup, closePopup } from './modal.js';
+import { createCard } from './cards.js';
+import { openPopup, closePopup, handleImagePopup } from './modal.js';
+import { initialCards } from './initialCards.js';
 
 const profile = document.querySelector(".profile");
 const editButton = profile.querySelector(".profile__edit-button");
@@ -23,7 +24,14 @@ const placesList = document.querySelector('.places__list');
 const inputPlace = popupAdd.querySelector('.popup__input_type_card-name');
 const inputUrl = popupAdd.querySelector('.popup__input_type_url');
 
-renderInitialCards(placesList);
+function renderInitialCards() {
+  initialCards.forEach(({ name, link }) => {
+    const card = createCard(name, link, handleImagePopup);
+    placesList.append(card);
+  });
+}
+
+renderInitialCards();
 
 editButton.addEventListener('click', () => {
   openPopup(popupEdit);
@@ -45,6 +53,6 @@ formEdit.addEventListener("submit", (evt) => {
 formAdd.addEventListener('submit', (evt) => {
   evt.preventDefault();
   const cardData = { name: inputPlace.value, link: inputUrl.value };
-  placesList.prepend(createCard(cardData.name, cardData.link));
+  placesList.prepend(createCard(cardData.name, cardData.link, handleImagePopup));
   closePopup(popupAdd);
 });
