@@ -1,7 +1,35 @@
 import '../pages/index.css';
 import { createCard } from './cards.js';
-import { openPopup, closePopup, handleImagePopup } from './modal.js';
+import { openPopup, closePopup } from './modal.js';
 import { initialCards } from './initialCards.js';
+
+const popups = document.querySelectorAll('.popup');
+const closeButtons = document.querySelectorAll('.popup__close');
+const popupImage = document.querySelector(".popup_type_image");
+const imagePopupImg = popupImage.querySelector(".popup__image");
+const imagePopupCaption = popupImage.querySelector(".popup__caption");
+
+popups.forEach(popup => {
+  popup.addEventListener('click', (event) => {
+    if (!event.target.closest('.popup__content')) {
+      closePopup(popup);
+    }
+  });
+});
+
+closeButtons.forEach(button => {
+  button.addEventListener('click', (event) => {
+    const popup = event.target.closest('.popup');
+    closePopup(popup);
+  });
+});
+
+function handleImagePopup(name, link) {
+  imagePopupCaption.textContent = name;
+  imagePopupImg.src = link;
+  imagePopupImg.alt = name;
+  openPopup(popupImage);
+}
 
 const profile = document.querySelector(".profile");
 const editButton = profile.querySelector(".profile__edit-button");
