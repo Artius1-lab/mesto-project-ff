@@ -1,16 +1,30 @@
-export function openPopup(popup) {
-  popup.classList.add('popup_is-opened');
-  document.addEventListener("keydown", closePopupOnEsc);
-}
+export default class Modal {
+  constructor(popup) {
+    this._popup = popup;
+    this._closeWhenPressEsc = this._closeWhenPressEsc.bind(this);
+  }
 
-export function closePopup(popup) {
-  popup.classList.remove('popup_is-opened');
-  document.removeEventListener("keydown", closePopupOnEsc);
-}
+  open() {
+    this._popup.classList.add("popup_opened");
+    document.addEventListener("keydown", this._closeWhenPressEsc);
+  }
 
-function closePopupOnEsc(evt) {
-  if (evt.key === "Escape") {
-    const openedPopup = document.querySelector(".popup_is-opened");
-    if (openedPopup) closePopup(openedPopup);
+  close() {
+    this._popup.classList.remove("popup_opened");
+    document.removeEventListener("keydown", this._closeWhenPressEsc);
+  }
+
+  setEventListeners() {
+    this._popup.addEventListener("mousedown", (e) => {
+      if (
+        e.target.classList.contains("popup_opened") ||
+        e.target.classList.contains("popup__close-button")
+      )
+        this.close();
+    });
+  }
+
+  _closeWhenPressEsc(e) {
+    if (e.key === "Escape") this.close();
   }
 }

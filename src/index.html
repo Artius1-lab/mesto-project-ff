@@ -1,81 +1,124 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
+
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="icon" href="<%=require('./images/favicon.ico')%>">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./pages/index.css">
   <title>Mesto</title>
-  <!--<link rel="stylesheet" href="./pages/index.css">-->
 </head>
-<body class="page">
-<div class="page__content">
-  <header class="header page__section">
-    <img src="<%=require('./images/logo.svg')%>" class="logo header__logo" alt="Логотип проекта Mesto">
+
+<body class="root">
+  <header class="header">
+    <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="Место (логотип)">
   </header>
-  <main class="content">
-    <section class="profile page__section">
-      <div class="profile__image" style="background-image: url('<%= require("./images/avatar.jpg") %>');"></div>
+  <main class="main">
+    <section class="profile">
+      <button class="profile__avatar-edit-button" type="button">
+        <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="аватар пользователя">
+      </button>
       <div class="profile__info">
-        <h1 class="profile__title">Жак-Ив Кусто</h1>
-        <button class="profile__edit-button" type="button"></button>
-        <p class="profile__description">Исследователь океана</p>
+        <h1 class="profile__name">Жак-Ив Кусто</h1>
+        <button class="profile__edit-button pointer" type="button"></button>
+        <p class="profile__job">Исследователь океана</p>
       </div>
-      <button class="profile__add-button" type="button"></button>
+      <button class="profile__add-button pointer" type="button"></button>
     </section>
-    <section class="places page__section">
-      <ul class="places__list">
+    <section class="cards" aria-label="Фотокарточки различных уголков планеты">
+      <ul class="cards__list">
       </ul>
     </section>
   </main>
-  <footer class="footer page__section">
-    <p class="footer__copyright">
-      © 2021 Mesto Russia
-    </p>
+  <footer class="footer">
+    <p class="footer__copyright">&#169; 2023 Mesto Russia</p>
   </footer>
-  <div class="popup popup_type_edit">
-    <div class="popup__content">
-      <button type="button" class="popup__close"></button>
-      <h3 class="popup__title">Редактировать профиль</h3>
-      <form class="popup__form" name="edit-profile">
-        <input type="text" name="name" class="popup__input popup__input_type_name" placeholder="Имя" required>
-        <input type="text" name="description" class="popup__input popup__input_type_description" placeholder="Занятие" required>
-        <button type="submit" class="button popup__button">Сохранить</button>
+  <!-- template -->
+  <template class="template">
+    <li class="cards__item">
+      <button class="cards__delete pointer" type="button"></button>
+      <img class="cards__item-image" src="#" alt="">
+      <div class="cards__item-description">
+        <h2 class="cards__item-title"></h2>
+        <div class="cards__item-likes">
+          <button class="cards__item-like pointer" type="button"></button>
+          <p class="cards__item-number-likes"></p>
+        </div>
+      </div>
+    </li>
+  </template>
+  <!-- edit profile -->
+  <div class="popup popup_type_edit-profile">
+    <div class="popup__container">
+      <button class="popup__close-button pointer" type="button"></button>
+      <h2 class="popup__title">Редактировать профиль</h2>
+      <form class="popup__form" name="popup-form-profile" novalidate>
+        <label class="popup__label">
+          <input class="popup__input popup__input_name" type="text" placeholder="Имя" minlength="2" maxlength="40"
+            name="name" id="profileName-input" required>
+          <span class="popup__input-error profileName-input-error"></span>
+        </label>
+        <label class="popup__label">
+          <input class="popup__input popup__input_job" type="text" placeholder="Вид деятельности" minlength="2"
+            maxlength="200" name="about" id="profileJob-input" required>
+          <span class="popup__input-error profileJob-input-error"></span>
+        </label>
+        <button class="popup__save-button pointer" type="submit">Сохранить</button>
       </form>
     </div>
   </div>
-  <div class="popup popup_type_new-card">
-      <div class="popup__content">
-      <button type="button" class="popup__close"></button>
-      <h3 class="popup__title">Новое место</h3>
-      <form class="popup__form" name="new-place">
-        <input type="text" name="place-name" class="popup__input popup__input_type_card-name" placeholder="Название" required>
-        <input type="url" name="link" class="popup__input popup__input_type_url" placeholder="Ссылка на картинку" required>
-        <button type="submit" class="button popup__button">Сохранить</button>
+  <!-- add card -->
+  <div class="popup popup_type_add-card">
+    <div class="popup__container">
+      <button class="popup__close-button pointer" type="button"></button>
+      <h2 class="popup__title">Новое место</h2>
+      <form class="popup__form" name="popup-form-profile" novalidate>
+        <label class="popup__label">
+          <input class="popup__input popup__input_image-name" type="text" placeholder="Название" minlength="2"
+            maxlength="30" name="name" id="imageName-input" required>
+          <span class="popup__input-error imageName-input-error"></span>
+        </label>
+        <label class="popup__label">
+          <input class="popup__input popup__input_image-link" type="url" placeholder="Ссылка на картинку" name="link"
+            id="imageLink-input" required>
+          <span class="popup__input-error imageLink-input-error"></span>
+        </label>
+        <button class="popup__save-button pointer" type="submit">Создать</button>
       </form>
     </div>
   </div>
-  <div class="popup popup_type_image">
-    <div class="popup__content popup__content_content_image">
-      <button type="button" class="popup__close"></button>
-      <img src="" alt="" class="popup__image">
-      <p class="popup__caption"></p>
+  <!-- delete card -->
+  <div class="popup popup_type_delete-card">
+    <div class="popup__container">
+      <button class="popup__close-button pointer" type="button"></button>
+      <h2 class="popup__title">Вы уверены?</h2>
+      <button type="submit" class="popup__save-button popup__save-button_place_delete-card">Да</button>
     </div>
   </div>
-</div>
-<!--<script src="./scripts/cards.js"></script>
-<script src="./scripts/index.js" defer></script>-->
-
-<template id="card-template">
-  <li class="places__item card">
-    <img class="card__image" src="" alt="" />
-    <button type="button" class="card__delete-button"></button>
-    <div class="card__description">
-      <h2 class="card__title">
-      </h2>
-      <button type="button" class="card__like-button"></button>
+  <!-- update avatar -->
+  <div class="popup popup_type_update-avatar">
+    <div class="popup__container">
+      <button class="popup__close-button pointer" type="button"></button>
+      <h2 class="popup__title">Обновить аватар</h2>
+      <form name="popup-form-profile" class="popup__form" novalidate>
+        <label class="popup__label">
+          <input id="avatar-input" name="avatar" type="url" placeholder="Ссылка на картинку"
+            class="popup__input popup__input_type_avatar" required>
+          <span class="popup__input-error avatar-input-error"></span>
+        </label>
+        <button type="submit" class="popup__save-button popup__save-button_place_update-avatar">Сохранить</button>
+      </form>
     </div>
-  </li>
-</template>
+  </div>
+  <!-- open image view -->
+  <div class="popup popup_type_image-view">
+    <figure class="popup__image-container">
+      <img class="popup__image" src="#" alt="">
+      <figcaption class="popup__image-title"></figcaption>
+      <button class="popup__close-button pointer" type="button"></button>
+    </figure>
+  </div>
 </body>
+
 </html>

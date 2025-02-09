@@ -1,32 +1,42 @@
 {
-  "name": "mesto-project-ff",
+  "name": "mesto",
   "version": "1.0.0",
-  "description": "",
+  "description": "Yandex Practicum: Mesto",
   "main": "index.js",
-"scripts": {
+  "scripts": {
     "build": "webpack --mode production",
-    "dev": "webpack serve --mode development --open"
-},
-  "keywords": [],
-  "author": "",
+    "dev": "webpack serve --port 3000",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/B10nicle/mesto.git"
+  },
+  "author": "Oleg Khilko",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/B10nicle/mesto/issues"
+  },
+  "homepage": "https://b10nicle.github.io/mesto/",
   "devDependencies": {
-    "@babel/core": "^7.26.0",
-    "@babel/preset-env": "^7.26.0",
-    "autoprefixer": "^10.4.20",
-    "babel-loader": "^9.2.1",
+    "@babel/core": "^7.20.12",
+    "@babel/preset-env": "^7.20.2",
+    "autoprefixer": "^10.4.13",
+    "babel-loader": "^9.1.2",
     "clean-webpack-plugin": "^4.0.0",
-    "css-loader": "^7.1.2",
-    "css-minimizer-webpack-plugin": "^7.0.0",
-    "file-loader": "^6.2.0",
-    "html-loader": "^5.1.0",
-    "html-webpack-plugin": "^5.6.3",
-    "image-webpack-loader": "^8.1.0",
-    "mini-css-extract-plugin": "^2.9.2",
-    "postcss-loader": "^8.1.1",
-    "style-loader": "^4.0.0",
-    "webpack": "^5.97.1",
-    "webpack-cli": "^6.0.1",
-    "webpack-dev-server": "^5.2.0"
+    "copy-webpack-plugin": "^11.0.0",
+    "css-loader": "^6.7.3",
+    "cssnano": "^5.1.14",
+    "gh-pages": "^5.0.0",
+    "html-webpack-plugin": "^5.5.0",
+    "mini-css-extract-plugin": "^2.7.2",
+    "postcss-loader": "^7.0.2",
+    "webpack": "^5.75.0",
+    "webpack-cli": "^5.0.1",
+    "webpack-dev-server": "^4.11.1"
+  },
+  "dependencies": {
+    "core-js": "^3.27.2"
   }
 }
