@@ -1,7 +1,3 @@
-export const cohort = 'cohort-60';
-// export const token = '1f43ff04-d4d6-48bf-b04f-ab223f18899b';
-export const token = "c56e30dc-2883-4270-a59e-b2f7bae969c6"
-
 export const settings = {
   formSelector: ".popup__form",
   inputSelector: ".popup__input",
@@ -11,24 +7,28 @@ export const settings = {
   errorClass: "popup__input-error_active",
 };
 
-/* popups */
-export const popupUpdateAvatar = document.querySelector('.popup_type_update-avatar');
-export const popupEditProfile = document.querySelector(".popup_type_edit-profile");
-export const popupImageView = document.querySelector(".popup_type_image-view");
-export const popupDeleteCard = document.querySelector('.popup_type_delete-card');
-export const popupAddCard = document.querySelector(".popup_type_add-card");
+export const popupSelectors = {
+  popupUpdateAvatar: '.popup_type_update-avatar',
+  popupEditProfile: '.popup_type_edit-profile',
+  popupImageView: '.popup_type_image-view',
+  popupDeleteCard: '.popup_type_delete-card',
+  popupAddCard: '.popup_type_add-card',
+};
 
-/* buttons */
-export const buttonEdit = document.querySelector(".profile__edit-button");
-export const buttonAdd = document.querySelector(".profile__add-button");
-export const buttonUpdateAvatar = document.querySelector('.profile__avatar-edit-button');
+export const buttonSelectors = {
+  buttonEdit: '.profile__edit-button',
+  buttonAdd: '.profile__add-button',
+  buttonUpdateAvatar: '.profile__avatar-edit-button',
+};
 
-/* forms */
-export const popupFormProfile = popupEditProfile.querySelector(".popup__form");
-export const popupFormAvatar = popupUpdateAvatar.querySelector('.popup__form');
-export const popupFormAddCard = popupAddCard.querySelector(".popup__form");
+export const formSelectors = {
+  popupFormProfile: '.popup__form',
+  popupFormAvatar: '.popup__form',
+  popupFormAddCard: '.popup__form',
+};
 
-/* fields */
-export const popupUserAvatar = document.querySelector('.profile__avatar');
-export const popupUserName = document.querySelector(".profile__name");
-export const popupUserAbout = document.querySelector(".profile__job");
+export const fieldSelectors = {
+  popupUserAvatar: '.profile__avatar',
+  popupUserName: '.profile__name',
+  popupUserAbout: '.profile__job',
+};

@@ -1,5 +1,5 @@
 .cards__delete {
-  background-image: url(../../../images/trash.svg);
+  background-image: url(../../../images/delete-icon.svg);
   background-color: transparent;
   transition: 0.3s ease-in-out;
   background-size: contain;

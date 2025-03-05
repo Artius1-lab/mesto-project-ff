@@ -1,55 +1,53 @@
-import Popup from "./Modal.js";
+import createModal from "./Modal";
 
-export default class PopupWithForm extends Popup {
-  constructor(popup, popupSubmitCallback) {
-    super(popup);
-    this._popupSubmitCallback = popupSubmitCallback;
-    this._popupForm = this._popup.querySelector(".popup__form");
-    this._formInputList = this._popupForm.querySelectorAll(".popup__input");
-    this._submitButton = this._popup.querySelector(".popup__save-button");
-    this._textSubmitButton = this._submitButton.textContent;
-    this._textSubmitButtonActive = 'Сохранение...';
-  }
+const createPopupWithForm = (popup, popupSubmitCallback) => {
+  const _popupForm = popup.querySelector(".popup__form");
+  const _formInputList = _popupForm.querySelectorAll(".popup__input");
+  const _submitButton = _popupForm.querySelector(".popup__save-button");
+  const _textSubmitButton = _submitButton.textContent;
+  const _textSubmitButtonActive = 'Saving...';
 
-  close() {
-    this._popupForm.reset();
-    super.close();
-  }
+  const close = () => {
+    _popupForm.reset();
+    modal.close();
+  };
 
-  getInputs() {
-    return this._getInputValues();
-  }
+  const getInputs = () => {
+    return Array.from(_formInputList).reduce((acc, input) => {
+      acc[input.name] = input.value;
+      return acc;
+    }, {});
+  };
 
-  setInputValues(data) {
-    this._formInputList.forEach((input) => {
-      input.value = data[input.name];
+  const setInputValues = (data) => {
+    _formInputList.forEach(input => {
+      if (data[input.name] !== undefined) {
+        input.value = data[input.name];
+      }
     });
-  }
+  };
 
-  setEventListeners() {
-    super.setEventListeners();
-    this._popupForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      this.startLoading();
-      this._popupSubmitCallback(this.getInputs());
-    });
-  }
+  const startLoading = () => {
+    _submitButton.disabled = true;
+    _submitButton.textContent = _textSubmitButtonActive;
+  };
 
-  startLoading() {
-    this._submitButton.disabled = true;
-    this._submitButton.textContent = this._textSubmitButtonActive;
-  }
+  const stopLoading = () => {
+    _submitButton.disabled = false;
+    _submitButton.textContent = _textSubmitButton;
+  };
 
-  stopLoading() {
-    this._submitButton.disabled = false;
-    this._submitButton.textContent = this._textSubmitButton;
-  }
+  _popupForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    startLoading();
+    popupSubmitCallback(getInputs())
+      .finally(() => stopLoading());
+  });
 
-  _getInputValues() {
-    this._inputs = {};
-    this._formInputList.forEach((input) => {
-      this._inputs[input.name] = input.value;
-    });
-    return this._inputs;
-  }
-}
+  const modal = createModal(popup);
+  modal.setEventListeners();
+
+  return { ...modal, close, getInputs, setInputValues, startLoading, stopLoading };
+};
+
+export default createPopupWithForm

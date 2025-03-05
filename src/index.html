@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <link rel="icon" href="<%=require('./images/favicon.ico')%>">
+  <link rel="icon">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./pages/index.css">
   <title>Mesto</title>
 </head>
-
 <body class="root">
   <header class="header">
     <img class="header__logo" src="<%=require('./images/logo.svg')%>" alt="Место (логотип)">
@@ -17,7 +15,7 @@
   <main class="main">
     <section class="profile">
       <button class="profile__avatar-edit-button" type="button">
-        <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="аватар пользователя">
+        <img class="profile__avatar" src="<%=require('./images/avatar.jpg')%>" alt="аватар пользователя">
       </button>
       <div class="profile__info">
         <h1 class="profile__name">Жак-Ив Кусто</h1>
@@ -34,7 +32,6 @@
   <footer class="footer">
     <p class="footer__copyright">&#169; 2023 Mesto Russia</p>
   </footer>
-  <!-- template -->
   <template class="template">
     <li class="cards__item">
       <button class="cards__delete pointer" type="button"></button>
@@ -48,8 +45,7 @@
       </div>
     </li>
   </template>
-  <!-- edit profile -->
-  <div class="popup popup_type_edit-profile">
+   <div class="popup popup_type_edit-profile">
     <div class="popup__container">
       <button class="popup__close-button pointer" type="button"></button>
       <h2 class="popup__title">Редактировать профиль</h2>
@@ -68,7 +64,6 @@
       </form>
     </div>
   </div>
-  <!-- add card -->
   <div class="popup popup_type_add-card">
     <div class="popup__container">
       <button class="popup__close-button pointer" type="button"></button>
@@ -88,7 +83,6 @@
       </form>
     </div>
   </div>
-  <!-- delete card -->
   <div class="popup popup_type_delete-card">
     <div class="popup__container">
       <button class="popup__close-button pointer" type="button"></button>
@@ -96,7 +90,6 @@
       <button type="submit" class="popup__save-button popup__save-button_place_delete-card">Да</button>
     </div>
   </div>
-  <!-- update avatar -->
   <div class="popup popup_type_update-avatar">
     <div class="popup__container">
       <button class="popup__close-button pointer" type="button"></button>
@@ -111,7 +104,6 @@
       </form>
     </div>
   </div>
-  <!-- open image view -->
   <div class="popup popup_type_image-view">
     <figure class="popup__image-container">
       <img class="popup__image" src="#" alt="">

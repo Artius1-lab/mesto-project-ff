@@ -1,16 +1,49 @@
-import Modal from "./Modal.js";
+import createModal from "./Modal";
 
-export default class PopupWithImage extends Modal {
-  constructor(popup) {
-    super(popup);
-    this._imageTitle = this._popup.querySelector(".popup__image-title");
-    this._imageView = this._popup.querySelector(".popup__image");
+const createPopupWithImage = (popup) => {
+  const _imageTitle = popup.querySelector(".popup__image-title");
+  const _imageView = popup.querySelector(".popup__image");
+  const closeButton = popup.querySelector(".popup__close-button"); // "X" tugmasi
+
+  if (!_imageTitle || !_imageView) {
+    console.error("Image title or image view not found in popup!");
   }
 
-  open(name, link) {
-    this._imageView.setAttribute("alt", name);
-    this._imageView.setAttribute("src", link);
-    this._imageTitle.textContent = name;
-    super.open();
-  }
-}
+  const modal = createModal(popup);
+
+  const open = (name, link) => {
+    console.log("Opening popup with name:", name, "link:", link); // Debugging
+    if (_imageView && _imageTitle) {
+      _imageView.alt = name;
+      _imageView.src = link;
+      _imageTitle.textContent = name;
+    }
+    popup.classList.add("popup_opened");
+    document.addEventListener("keydown", handleEscClose);
+    closeButton.addEventListener("click", close);
+    popup.addEventListener("click", handleOverlayClose);
+  };
+
+  const close = () => {
+    popup.classList.remove("popup_opened");
+    document.removeEventListener("keydown", handleEscClose);
+    closeButton.removeEventListener("click", close);
+    popup.removeEventListener("click", handleOverlayClose);
+  };
+
+  const handleEscClose = (evt) => {
+    if (evt.key === "Escape") {
+      close();
+    }
+  };
+
+  const handleOverlayClose = (evt) => {
+    if (evt.target === popup) {
+      close();
+    }
+  };
+
+  return { open, close };
+};
+
+export default createPopupWithImage;

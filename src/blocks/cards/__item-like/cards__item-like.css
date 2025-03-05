@@ -1,5 +1,5 @@
 .cards__item-like {
-  background-image: url(../../../images/like.svg);
+  background-image: url(../../../images/like-inactive.svg);
   background-color: transparent;
   transition: 0.3s ease-in-out;
   background-repeat: no-repeat;

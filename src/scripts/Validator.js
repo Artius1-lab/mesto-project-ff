@@ -1,78 +1,62 @@
-export default class FormValidator {
-  constructor(settings, formElement) {
-    this._settings = settings;
-    this._formElement = formElement;
-    this._inputList = Array.from(
-      this._formElement.querySelectorAll(this._settings.inputSelector)
-    );
-    this._submitButton = this._formElement.querySelector(
-      this._settings.submitButtonSelector
-    );
-  }
+const createFormValidator = (settings, formElement) => {
+  const _inputList = Array.from(formElement.querySelectorAll(settings.inputSelector));
+  const _submitButton = formElement.querySelector(settings.submitButtonSelector);
 
-  toggleSubmitButtonState = () => {
-    this._hasInvalidInput(this._inputList)
-      ? this._disableSubmitButton()
-      : this._activateSubmitButton();
+  const toggleSubmitButtonState = () => {
+    _hasInvalidInput() ? _disableSubmitButton() : _activateSubmitButton();
   };
 
-  resetValidation() {
-    this._disableSubmitButton();
-    this._inputList.forEach((element) => {
-      this._hideInputError(element);
-    });
-  }
-
-  enableValidation = () => {
-    this._formElement.addEventListener("submit", (e) => {
-      e.preventDefault();
-    });
-    this._setEventListeners();
+  const resetValidation = () => {
+    _disableSubmitButton();
+    _inputList.forEach(_hideInputError);
   };
 
-  _checkInputValidity = (element) => {
-    !element.validity.valid
-      ? this._showInputError(element)
-      : this._hideInputError(element);
+  const enableValidation = () => {
+    formElement.addEventListener("submit", (e) => e.preventDefault());
+    _setEventListeners();
   };
 
-  _showInputError = (element) => {
-    const errorId = this._formElement.querySelector(`.${element.id}-error`);
-    element.classList.add(this._settings.inputErrorClass);
-    errorId.classList.add(this._settings.errorClass);
+  const _checkInputValidity = (element) => {
+    !element.validity.valid ? _showInputError(element) : _hideInputError(element);
+  };
+
+  const _showInputError = (element) => {
+    const errorId = formElement.querySelector(`.${element.id}-error`);
+    element.classList.add(settings.inputErrorClass);
+    errorId.classList.add(settings.errorClass);
     errorId.textContent = element.validationMessage;
   };
 
-  _hideInputError = (element) => {
-    const errorId = this._formElement.querySelector(`.${element.id}-error`);
-    element.classList.remove(this._settings.inputErrorClass);
-    errorId.classList.remove(this._settings.errorClass);
+  const _hideInputError = (element) => {
+    const errorId = formElement.querySelector(`.${element.id}-error`);
+    element.classList.remove(settings.inputErrorClass);
+    errorId.classList.remove(settings.errorClass);
     errorId.textContent = "";
   };
-  
-  _hasInvalidInput = () => {
-    return this._inputList.some((element) => {
-      return !element.validity.valid;
-    });
+
+  const _hasInvalidInput = () => _inputList.some(element => !element.validity.valid);
+
+  const _disableSubmitButton = () => {
+    _submitButton.classList.add(settings.inactiveButtonClass);
+    _submitButton.disabled = true;
   };
 
-  _disableSubmitButton = () => {
-    this._submitButton.classList.add(this._settings.inactiveButtonClass);
-    this._submitButton.setAttribute("disabled", "");
+  const _activateSubmitButton = () => {
+    _submitButton.classList.remove(settings.inactiveButtonClass);
+    _submitButton.disabled = false;
   };
 
-  _activateSubmitButton = () => {
-    this._submitButton.classList.remove(this._settings.inactiveButtonClass);
-    this._submitButton.removeAttribute("disabled", "");
-  };
-
-  _setEventListeners = () => {
-    this.toggleSubmitButtonState();
-    this._inputList.forEach((element) => {
+  const _setEventListeners = () => {
+    toggleSubmitButtonState();
+    _inputList.forEach(element => {
       element.addEventListener("input", () => {
-        this._checkInputValidity(element);
-        this.toggleSubmitButtonState();
+        _checkInputValidity(element);
+        toggleSubmitButtonState();
       });
     });
   };
-}
+
+  return { enableValidation, resetValidation };
+};
+
+export default createFormValidator
