@@ -11,14 +11,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/B10nicle/mesto.git"
+    "url": "git+https://github.com/Artius1-lab/mesto-project-ff.git"
   },
   "author": "Oleg Khilko",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/B10nicle/mesto/issues"
+    "url": "https://github.com/Artius1-lab/mesto-project-ff/issues"
   },
-  "homepage": "https://b10nicle.github.io/mesto/",
+  "homepage": "https://artius1-lab.github.io/mesto-project-ff/",
   "devDependencies": {
     "@babel/core": "^7.20.12",
     "@babel/preset-env": "^7.20.2",
