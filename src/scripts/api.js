@@ -22,4 +22,5 @@ const createApiService = ({ baseUrl, headers }) => {
     unlikeCard: (cardId) => fetchData(`cards/${cardId}/likes`, "DELETE"),
   };
 };
-export default createApiService
+
+export default createApiService;

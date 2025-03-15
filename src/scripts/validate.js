@@ -59,4 +59,4 @@ const createFormValidator = (settings, formElement) => {
   return { enableValidation, resetValidation };
 };
 
-export default createFormValidator
+export default createFormValidator;

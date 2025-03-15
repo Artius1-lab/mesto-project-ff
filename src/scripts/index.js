@@ -1,13 +1,64 @@
-import { settings, popupSelectors, buttonSelectors, formSelectors, fieldSelectors } from "../scripts/constants";
+import createApiService from "./api.js";
+import { createCard, createSection } from "./card.js";
+import createFormValidator from "./validate.js";
+import { createPopupWithForm, createPopupWithImage, createDeleteConfirmationModal } from "./modal.js";
 import "../pages/index.css";
-import createApiService from "../scripts/ApiService";
-import createSection from "../scripts/ListRender";
-import createFormValidator from "../scripts/Validator";
-import createProfile from "../scripts/Profile";
-import createPopupWithForm from "../scripts/ModalForm";
-import createPopupWithImage from "../scripts/ModalImg";
-import createDeleteConfirmationModal from "../scripts/DeleteConfirmationModal";
-import createCard from "../scripts/CardItem";
+
+const settings = {
+  formSelector: ".popup__form",
+  inputSelector: ".popup__input",
+  submitButtonSelector: ".popup__save-button",
+  inactiveButtonClass: "popup__save-button_inactive",
+  inputErrorClass: "popup__input_type_error",
+  errorClass: "popup__input-error_active",
+};
+
+const popupSelectors = {
+  popupUpdateAvatar: '.popup_type_update-avatar',
+  popupEditProfile: '.popup_type_edit-profile',
+  popupImageView: '.popup_type_image-view',
+  popupDeleteCard: '.popup_type_delete-card',
+  popupAddCard: '.popup_type_add-card',
+};
+
+const buttonSelectors = {
+  buttonEdit: '.profile__edit-button',
+  buttonAdd: '.profile__add-button',
+  buttonUpdateAvatar: '.profile__avatar-edit-button',
+};
+
+const formSelectors = {
+  popupFormProfile: '.popup__form',
+  popupFormAvatar: '.popup__form',
+  popupFormAddCard: '.popup__form',
+};
+
+const fieldSelectors = {
+  popupUserAvatar: '.profile__avatar',
+  popupUserName: '.profile__name',
+  popupUserAbout: '.profile__job',
+};
+
+const createProfile = ({ nameElement, aboutElement, avatarElement }) => {
+  let _userId;
+
+  const getProfileData = () => ({
+    name: nameElement.textContent,
+    about: aboutElement.textContent
+  });
+
+  const updateProfile = ({ name, about, avatar, _id }) => {
+    if (name) nameElement.textContent = name;
+    if (about) aboutElement.textContent = about;
+    if (avatar) {
+      avatarElement.src = avatar;
+      avatarElement.alt = name;
+    }
+    if (_id) _userId = _id;
+  };
+
+  return { getProfileData, updateProfile, getUserId: () => _userId };
+};
 
 const api = createApiService({
   baseUrl: "https://nomoreparties.co/v1/wff-cohort-34",
@@ -16,7 +67,6 @@ const api = createApiService({
     "Content-Type": "application/json",
   },
 });
-
 
 const handleLikeCard = ({ _id, isLike, toggleLike, numberOfLikes }) => {
   (isLike ? api.unlikeCard(_id) : api.likeCard(_id))
@@ -55,6 +105,7 @@ const userInfo = createProfile({
   aboutElement: document.querySelector(fieldSelectors.popupUserAbout),
   avatarElement: document.querySelector(fieldSelectors.popupUserAvatar),
 });
+
 const popupAddElementForm = createPopupWithForm(
   document.querySelector(popupSelectors.popupAddCard),
   (data) => {
@@ -104,7 +155,6 @@ const popupWithDelete = createDeleteConfirmationModal(
       .catch(err => console.error(`Error: ${err}`));
   }
 );
-
 
 Promise.all([api.getUserProfile(), api.getCards()])
   .then(([profileData, cardsData]) => {
