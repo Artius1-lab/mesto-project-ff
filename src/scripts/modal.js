@@ -29,6 +29,8 @@ const createPopupWithForm = (popup, popupSubmitCallback) => {
   const _textSubmitButton = _submitButton.textContent;
   const _textSubmitButtonActive = 'Saving...';
 
+  const modal = createModal(popup);
+
   const close = () => {
     _popupForm.reset();
     modal.close();
@@ -66,7 +68,6 @@ const createPopupWithForm = (popup, popupSubmitCallback) => {
       .finally(() => stopLoading());
   });
 
-  const modal = createModal(popup);
   modal.setEventListeners();
 
   return { ...modal, close, getInputs, setInputValues, startLoading, stopLoading };
@@ -75,7 +76,6 @@ const createPopupWithForm = (popup, popupSubmitCallback) => {
 const createPopupWithImage = (popup) => {
   const _imageTitle = popup.querySelector(".popup__image-title");
   const _imageView = popup.querySelector(".popup__image");
-  const closeButton = popup.querySelector(".popup__close-button");
 
   if (!_imageTitle || !_imageView) {
     console.error("Image title or image view not found in popup!");
@@ -90,30 +90,12 @@ const createPopupWithImage = (popup) => {
       _imageView.src = link;
       _imageTitle.textContent = name;
     }
-    popup.classList.add("popup_opened");
-    document.addEventListener("keydown", handleEscClose);
-    closeButton.addEventListener("click", close);
-    popup.addEventListener("click", handleOverlayClose);
+    modal.open();
   };
 
-  const close = () => {
-    popup.classList.remove("popup_opened");
-    document.removeEventListener("keydown", handleEscClose);
-    closeButton.removeEventListener("click", close);
-    popup.removeEventListener("click", handleOverlayClose);
-  };
+  const close = () => modal.close();
 
-  const handleEscClose = (evt) => {
-    if (evt.key === "Escape") {
-      close();
-    }
-  };
-
-  const handleOverlayClose = (evt) => {
-    if (evt.target === popup) {
-      close();
-    }
-  };
+  modal.setEventListeners();
 
   return { open, close };
 };
@@ -122,12 +104,7 @@ const createDeleteConfirmationModal = (popup, popupSubmitCallback) => {
   const _button = popup.querySelector('.popup__save-button_place_delete-card');
   let _card;
 
-  const modal = createModal(popup); 
-
-  const setEventListeners = () => {
-    _button.addEventListener('click', () => popupSubmitCallback(_card));
-    modal.setEventListeners(); 
-  };
+  const modal = createModal(popup);
 
   const setDeleteCard = (card) => {
     _card = card;
@@ -135,12 +112,12 @@ const createDeleteConfirmationModal = (popup, popupSubmitCallback) => {
 
   const open = () => {
     modal.open();
-    setEventListeners();
+    _button.addEventListener('click', () => popupSubmitCallback(_card), { once: true });
   };
 
-  const close = () => {
-    modal.close();
-  };
+  const close = () => modal.close();
+
+  modal.setEventListeners();
 
   return { ...modal, setDeleteCard, open, close };
 };
